@@ -42,7 +42,6 @@ if [ -n "${BUILDPACK_CLEAR_CACHE+1}" ]; then
   rm -rf "$CACHE_DIR"
 fi
 
-
 #
 # Find the meteor app ($APP_SOURCE_DIR).
 #
@@ -81,6 +80,14 @@ fi
 mkdir -p "$APP_CHECKOUT_DIR" "$METEOR_DIR"
 mkdir -p "$COMPILE_DIR" "$COMPILE_DIR/bin" "$COMPILE_DIR/lib"
 
+PHANTOM_VERSION=2.1.1
+PHANTOM_URL="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOM_VERSION-linux-x86_64.tar.bz2"
+echo "-----> Installing phantomjs."
+# Just extract the one file (the binary) and not all the examples/readme's/etc.
+FILE="phantomjs-$PHANTOM_VERSION-linux-x86_64/bin/phantomjs"
+curl -L -sS $PHANTOM_URL -o - | tar -jxf - -C $COMPILE_DIR $FILE --strip 1
+
+
 # Set a default ROOT_URL if one is not defined. Currently, HEROKU_APP_NAME is
 # only available if you enable the labs addon "Heroku Dyno Metadata":
 # https://devcenter.heroku.com/articles/dyno-metadata
@@ -107,15 +114,6 @@ METEOR="$METEOR_DIR/.meteor/meteor" # The meteor binary.
 echo "-----> Meteor version: `HOME=$METEOR_DIR $METEOR --version`"
 
 
-
-
-PHANTOM_VERSION=2.1.1
-PHANTOM_URL="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOM_VERSION-linux-x86_64.tar.bz2"
-
-echo "-----> Installing phantomjs."
-# Just extract the one file (the binary) and not all the examples/readme's/etc.
-FILE="phantomjs-$PHANTOM_VERSION-linux-x86_64/bin/phantomjs"
-curl -L -sS $PHANTOM_URL -o - | tar -jxf - -C $COMPILE_DIR $FILE --strip 1
 
 
 

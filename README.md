@@ -1,18 +1,20 @@
 # Meteor Buildpack Horse
 
-[![Horse](https://i.imgur.com/YhIL9zM.jpg)](https://commons.wikimedia.org/wiki/File:Draw-Costa_Rican-2smallest.jpg)
+Originally forked from https://github.com/AdmitHub/meteor-buildpack-horse.git
 
-A heroku buildpack for Meteor v1+, designed to be as simple and readable as possible.
+[![Horse](https://cdn.thisiswhyimbroke.com/images/horse-head-mask1.jpg)]
+
+A heroku buildpack for Meteor v1.4.2, designed to be as simple and readable as possible.
 
 To use this with your meteor app and heroku:
 
 1. Set up your app to [deploy to heroku with git](https://devcenter.heroku.com/articles/git).
 2. Set this repository as the buildpack URL:
 
-        heroku buildpacks:set https://github.com/AdmitHub/meteor-buildpack-horse.git
+        heroku buildpacks:set https://github.com/camstuart/meteor-buildpack-horse.git
 
 3. Add the MongoLab addon:
-        
+
         heroku addons:create mongolab
 
 4. Set the `ROOT_URL` environment variable. This is required for bundling and running the app.  Either define it explicitly, or enable the [Dyno Metadata](https://devcenter.heroku.com/articles/dyno-metadata) labs addon to default to `https://<appname>.herokuapp.com`.
@@ -37,7 +39,7 @@ The following are some important environment variables for bundling and running 
 
 The basic buildpack should function correctly for any normal-ish meteor app,
 with or without npm-container.  For extra steps needed for your particular build,
-just add shell scripts to the `extra` folder and they will get sourced into the 
+just add shell scripts to the `extra` folder and they will get sourced into the
 build.
 
 Extras included in this branch:
@@ -58,10 +60,4 @@ if you need to in custom extras.
 
 ## Why horse?
 
-There are a gazillian forks and branches of various buildpacks remixing the
-words "heroku", "buildpack", and "meteor", many of which are abandoned or
-outdated or broken, and it's really hard to keep them straight.
-
-So this one is the horse one.
-
-README image credit: wikicommons contributor [Arsdelicata](https://commons.wikimedia.org/wiki/User:Arsdelicata)
+See original authors comments on this. But in a nutshell; Why not.

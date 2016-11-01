@@ -106,17 +106,12 @@ METEOR="$METEOR_DIR/.meteor/meteor" # The meteor binary.
 
 echo "-----> Meteor version: `HOME=$METEOR_DIR $METEOR --version`"
 
-#
-# Extras
-#
 
-# source scripts in 'extra' dir, if any.  Create them for custom stuff like
-# binary dependencies, phantomjs for spiderable, additional environment
-# settings, etc.
-echo "-----> Running extras"
-for file in `ls "$BUILDPACK_DIR"/extra | sort`; do
-  . "$BUILDPACK_DIR"/extra/$file
-done
+
+
+
+
+
 
 #
 # Build the meteor app!
@@ -198,6 +193,23 @@ HOME=$METEOR_DIR $METEOR build $BUILD_OPTIONS --server $ROOT_URL $SERVER_ONLY_FL
 echo "-----> Moving built slug to $COMPILE_DIR/app"
 mv $BUNDLE_DEST/bundle "$COMPILE_DIR/app"
 rmdir $BUNDLE_DEST
+
+
+
+#
+# Extras
+#
+
+# source scripts in 'extra' dir, if any.  Create them for custom stuff like
+# binary dependencies, phantomjs for spiderable, additional environment
+# settings, etc.
+echo "-----> Running extras"
+for file in `ls "$BUILDPACK_DIR"/extra | sort`; do
+  . "$BUILDPACK_DIR"/extra/$file
+done
+
+
+
 
 # Run npm install on the built slug; only for `--production` dependencies.
 echo "-----> Installing npm production dependencies on built slug"

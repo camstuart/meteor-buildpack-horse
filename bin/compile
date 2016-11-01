@@ -85,8 +85,9 @@ PHANTOM_URL="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOM_
 echo "-----> Installing phantomjs."
 # Just extract the one file (the binary) and not all the examples/readme's/etc.
 FILE="phantomjs-$PHANTOM_VERSION-linux-x86_64/bin/phantomjs"
-curl -L -sS $PHANTOM_URL -o - | tar -jxf - -C $COMPILE_DIR/bin $FILE --strip 1
-
+curl -O -L $PHANTOM_URL
+tar -xjf phantomjs-$PHANTOM_VERSION-linux-x86_64.tar.bz2
+cp phantomjs-$PHANTOM_VERSION-linux-x86_64/bin/phantomjs $COMPILE_DIR/bin
 export PATH=$PATH:$COMPILE_DIR/bin
 
 echo "-----> Checking phantomjs can be found in the path:"

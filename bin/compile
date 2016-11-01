@@ -44,19 +44,6 @@ fi
 
 
 #
-# Extras
-#
-
-# source scripts in 'extra' dir, if any.  Create them for custom stuff like
-# binary dependencies, phantomjs for spiderable, additional environment
-# settings, etc.
-echo "-----> Running extras"
-for file in `ls "$BUILDPACK_DIR"/extra | sort`; do
-  . "$BUILDPACK_DIR"/extra/$file
-done
-
-
-#
 # Find the meteor app ($APP_SOURCE_DIR).
 #
 
@@ -118,6 +105,18 @@ fi
 METEOR="$METEOR_DIR/.meteor/meteor" # The meteor binary.
 
 echo "-----> Meteor version: `HOME=$METEOR_DIR $METEOR --version`"
+
+#
+# Extras
+#
+
+# source scripts in 'extra' dir, if any.  Create them for custom stuff like
+# binary dependencies, phantomjs for spiderable, additional environment
+# settings, etc.
+echo "-----> Running extras"
+for file in `ls "$BUILDPACK_DIR"/extra | sort`; do
+  . "$BUILDPACK_DIR"/extra/$file
+done
 
 #
 # Build the meteor app!

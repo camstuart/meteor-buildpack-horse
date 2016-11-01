@@ -42,6 +42,20 @@ if [ -n "${BUILDPACK_CLEAR_CACHE+1}" ]; then
   rm -rf "$CACHE_DIR"
 fi
 
+
+#
+# Extras
+#
+
+# source scripts in 'extra' dir, if any.  Create them for custom stuff like
+# binary dependencies, phantomjs for spiderable, additional environment
+# settings, etc.
+echo "-----> Running extras"
+for file in `ls "$BUILDPACK_DIR"/extra | sort`; do
+  . "$BUILDPACK_DIR"/extra/$file
+done
+
+
 #
 # Find the meteor app ($APP_SOURCE_DIR).
 #
@@ -161,7 +175,7 @@ if [ -e "$APP_SOURCE_DIR"/package.json ]; then
   $METEOR_NPM install
 fi
 
-# Related to https://github.com/meteor/meteor/issues/2796 and 
+# Related to https://github.com/meteor/meteor/issues/2796 and
 # https://github.com/meteor/meteor/issues/2606.  Some packages only build their
 # assets at runtime, and thus they are not available for bundling unless meteor
 # has been launched.  To opt-in to this, set BUILDPACK_PRELAUNCH_METEOR=1.
@@ -205,15 +219,3 @@ cat > "$APP_CHECKOUT_DIR"/.profile.d/path.sh <<EOF
   export PATH=\$HOME/$COMPILE_DIR_SUFFIX/bin:\$PATH
   export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:\$HOME/$COMPILE_DIR_SUFFIX/lib
 EOF
-
-#
-# Extras
-#
-
-# source scripts in 'extra' dir, if any.  Create them for custom stuff like
-# binary dependencies, phantomjs for spiderable, additional environment
-# settings, etc.
-echo "-----> Running extras"
-for file in `ls "$BUILDPACK_DIR"/extra | sort`; do
-  . "$BUILDPACK_DIR"/extra/$file
-done

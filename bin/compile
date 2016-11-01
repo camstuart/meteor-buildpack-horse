@@ -87,7 +87,7 @@ echo "-----> Installing phantomjs."
 FILE="phantomjs-$PHANTOM_VERSION-linux-x86_64/bin/phantomjs"
 curl -O -L $PHANTOM_URL
 
-echo "-----> Directory Listing of: " && pwd && ls -la
+echo "-----> Directory Listing of: " && pwd && ls -la && du -sh phantomjs-$PHANTOM_VERSION-linux-x86_64.tar.bz2
 
 tar -xjf phantomjs-$PHANTOM_VERSION-linux-x86_64.tar.bz2
 

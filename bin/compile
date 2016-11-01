@@ -109,6 +109,13 @@ echo "-----> Meteor version: `HOME=$METEOR_DIR $METEOR --version`"
 
 
 
+PHANTOM_VERSION=2.1.1
+PHANTOM_URL="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOM_VERSION-linux-x86_64.tar.bz2"
+
+echo "-----> Installing phantomjs."
+# Just extract the one file (the binary) and not all the examples/readme's/etc.
+FILE="phantomjs-$VERSION-linux-x86_64/bin/phantomjs"
+curl -L -sS $PHANTOM_URL -o - | tar -jxf - -C $COMPILE_DIR $FILE --strip 1
 
 
 
@@ -194,23 +201,6 @@ echo "-----> Moving built slug to $COMPILE_DIR/app"
 mv $BUNDLE_DEST/bundle "$COMPILE_DIR/app"
 rmdir $BUNDLE_DEST
 
-
-
-#
-# Extras
-#
-
-# source scripts in 'extra' dir, if any.  Create them for custom stuff like
-# binary dependencies, phantomjs for spiderable, additional environment
-# settings, etc.
-echo "-----> Running extras"
-for file in `ls "$BUILDPACK_DIR"/extra | sort`; do
-  . "$BUILDPACK_DIR"/extra/$file
-done
-
-
-
-
 # Run npm install on the built slug; only for `--production` dependencies.
 echo "-----> Installing npm production dependencies on built slug"
 if [ -e "$COMPILE_DIR"/app/programs/server/package.json ]; then
@@ -230,3 +220,15 @@ cat > "$APP_CHECKOUT_DIR"/.profile.d/path.sh <<EOF
   export PATH=\$HOME/$COMPILE_DIR_SUFFIX/bin:\$PATH
   export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:\$HOME/$COMPILE_DIR_SUFFIX/lib
 EOF
+
+#
+# Extras
+#
+
+# source scripts in 'extra' dir, if any.  Create them for custom stuff like
+# binary dependencies, phantomjs for spiderable, additional environment
+# settings, etc.
+echo "-----> Running extras"
+for file in `ls "$BUILDPACK_DIR"/extra | sort`; do
+  . "$BUILDPACK_DIR"/extra/$file
+done
